@@ -1,35 +1,37 @@
-console.log("JS file is connected to HTML! Woo!")
-var cardOne = "queen";
-var cardTwo = "queen";
-var cardThree = "king";
-var cardFour = "king";
+var cards = ['queen', 'queen', 'king', 'king'];
 
-if (cardTwo === cardFour) {
-	alert ("It's a match");
-}
-else if (cardTwo === cardThree) {
-	alert ("It's a match");
-}
-else if (cardTwo === cardTwo) {
-	alert ("It's a match");
-}
-else if (cardThree === cardThree) {
-	alert ("It's a match");
-}
-else {
-	alert ("No match found");
-}
+var cardsInPlay = [];
 
-var parent = document.getElementById('game-board');
-
-var createCards = function() {
-	for (i=1; i<5; i++) {
-		var newListItem = document.createElement('div');
-    	newListItem.className = "card";
-    	newListItem.innerHTML = "new";
-    	parent.appendChild(newListItem);
-
+var createBoard = function() {
+	for (i=0; i<cards.length; i++) {
+		var newCard = document.createElement('div');
+		newCard.className = 'card';
+		newCard.setAttribute('data-card', cards[i]);
+		newCard.addEventListener('click', isTwoCards);
+		document.getElementById("game-board").appendChild(newCard);
 	}
 };
 
-createCards();
+var isTwoCards = function() {
+	cardsInPlay.push(this.getAttribute('data-card'));
+	console.log(this.getAttribute('data-card'));
+	if (this.getAttribute('data-card') === 'king') {
+		this.innerHTML = "<img src='https://a.fsdn.com/con/app/proj/vector-cards/screenshots/KH.png'>";
+	} else {
+		this.innerHTML = "<img src='http://www.cruise-international.com/wp-content/uploads/2010/11/queen-elizabeth-II.jpg'>";
+	}
+	if (cardsInPlay.length === 2) {
+    isMatch(cardsInPlay);
+    cardsInPlay = [];
+	}
+};
+var isMatch = function(inP) {
+  if (inP[0] === inP[1]) {
+    alert("You found a match!");
+  } else {
+    alert("Sorry, try again.");
+  }
+};
+
+createBoard();
+console.log('booyah');
